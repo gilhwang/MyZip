@@ -7,3 +7,4 @@ add_executable(sanity_tests
 )
 
 add_test(NAME SanityTests COMMAND sanity_tests)
+set(CTEST_OUTPUT_ON_FAILURE ON)

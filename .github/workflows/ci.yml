@@ -1,0 +1,51 @@
+name: Delivery pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+  checks: write
+
+jobs:
+  test-suite:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install Dependencies (Linux only)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y valgrind
+
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Build
+      run: cmake --build build --parallel
+
+    - name: Run CTest
+      working-directory: build
+      run: ctest --output-on-failure --junitxml report.xml
+
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always() # Run even if tests fail so you can see WHICH ones failed
+      with:
+        files: build/report.xml
+
+    - name: Memory Leak Check (Linux only)
+      if: runner.os == 'Linux'
+      working-directory: build
+      run: valgrind --leak-check=full --error-exitcode=1 ./tests/unit_tests
