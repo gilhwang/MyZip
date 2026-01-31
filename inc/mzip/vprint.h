@@ -4,4 +4,4 @@
 
 extern struct arguments arguments;
 
-#define vprint(...) if (arguments.verbose) { printf(__VA_ARGS__); }
+#define vprintf(...) if (arguments.verbose) { printf(__VA_ARGS__); }
