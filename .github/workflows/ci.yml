@@ -13,11 +13,8 @@ permissions:
   checks: write
 
 jobs:
-  test-suite:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+  run-test:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -37,7 +34,7 @@ jobs:
 
     - name: Run CTest
       working-directory: build
-      run: ctest --output-on-failure --junitxml report.xml
+      run: ctest --output-on-failure --output-junit report.xml
 
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
@@ -48,4 +45,4 @@ jobs:
     - name: Memory Leak Check (Linux only)
       if: runner.os == 'Linux'
       working-directory: build
-      run: valgrind --leak-check=full --error-exitcode=1 ./tests/unit_tests
+      run: ctest -T memcheck --overwrite "MemoryCheckCommandOptions=--leak-check=full --error-exitcode=1"

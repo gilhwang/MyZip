@@ -12,7 +12,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 # Include the 'include' directory for headers
 include_directories(inc)
 
-# Enable testing
+# Testing
+include(CTest)
 enable_testing()
 
 # Add the source directory
