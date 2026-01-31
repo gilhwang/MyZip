@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <mzip/args.h>
-#include <mzip/vprint.h>
+#include <mzip/print.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -37,6 +37,8 @@ int main(int argc, char* argv[])
         perror("Failed to open output file");
         return 1;
     }
+
+    DEBUG_PRINTF("Reached end of program\n");
 
     return 0;
 }
