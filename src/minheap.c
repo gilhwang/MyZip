@@ -13,7 +13,7 @@
 #define MINHEAP_ERROR_MEMORY -1
 #define MINHEAP_ERROR_EMPTY -2
 #define MINHEAP_ERROR_NULL -3
-
+ 
 /**
  * Swap values of two integers
  */
