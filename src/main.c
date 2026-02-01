@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <mzip/args.h>
-#include <mzip/print.h>
+#include "mzip/args.h"
+#include "mzip/print.h"
 #include <string.h>
 #include <stdlib.h>
 
